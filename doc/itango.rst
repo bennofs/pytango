@@ -10,7 +10,8 @@ ITango
 ITango is a PyTango CLI based on IPython_. It is designed to be used as an
 IPython profile.
 
-ITango is available since PyTango 7.1.2
+ITango is available since PyTango 7.1.2 and has been moved to a separate
+project since PyTango 9.2.0: `itango <https://pypi.python.org/pypi/itango`_.
 
 You can start ITango by typing on the command line::
 
@@ -269,7 +270,7 @@ usual :func:`repr` :
 
 You can customize the icon that itango displays for a specific device.
 The first thing to do is to copy the image file into
-:mod:`PyTango.ipython.resource` installation directory (if you don't have
+:mod:`itango.resource` installation directory (if you don't have
 permissions to do so, copy the image into a directory of your choosing
 and make sure it is accessible from itango).
 
@@ -279,7 +280,7 @@ course, with itango itself::
 
     db.put_class_property("Libera", dict(__icon="libera.png"))
     
-    # if you placed your image in a directory different than PyTango.ipython.resource
+    # if you placed your image in a directory different than itango.resource
     # then, instead you have to specify the absolute directory
     
     db.put_class_property("Libera", dict(__icon="/home/homer/.config/itango/libera.png"))
@@ -471,14 +472,14 @@ The way to do this is by editing your default ipython configuration file:
 
     .. sourcecode:: python
 
-        import PyTango.ipython
+        import itango
 
         def main():
 
             # uncomment if you want to get ipython -p sh behaviour
             # without having to use command line switches  
             # import ipy_profile_sh
-            PyTango.ipython.init_ipython(ip, console=False)
+            itango.init_ipython(ip, console=False)
 
 2. On IPython > 0.10
 
@@ -502,7 +503,7 @@ The way to do this is by editing your default ipython configuration file:
         config = get_config()
         i_shell_app = config.InteractiveShellApp
         extensions = getattr(i_shell_app, 'extensions', [])
-        extensions.append('PyTango.ipython')
+        extensions.append('itango')
         i_shell_app.extensions = extensions
     
     for more information on how to configure IPython >= 0.11 please check the
@@ -559,11 +560,11 @@ add two lines of code (lines 3 and 7):
 
     import os
     import IPython.ipapi
-    import PyTango.ipython
+    import itango
 
     def main():
         ip = IPython.ipapi.get()
-        PyTango.ipython.init_ipython(ip, console=False)
+        itango.init_ipython(ip, console=False)
         
         o = ip.options
         o.banner = "Springfield nuclear powerplant CLI\n\nMr. Burns owns you!"
@@ -595,12 +596,12 @@ Here is the code for the $HOME/.ipython/ipy_profile_orbit.py:
     import IPython.ipapi
     import IPython.genutils
     import IPython.ColorANSI
-    import PyTango.ipython
+    import itango
     import StringIO
 
     def magic_liberas(ip, p=''):
         """Lists all known Libera devices."""
-        data = PyTango.ipython.get_device_map()
+        data = itango.get_device_map()
         s = StringIO.StringIO()
         cols = 30, 15, 20
         l = "%{0}s %{1}s %{2}s".format(*cols)
@@ -615,7 +616,7 @@ Here is the code for the $HOME/.ipython/ipy_profile_orbit.py:
     def main():
         ip = IPython.ipapi.get()
 
-        PyTango.ipython.init_ipython(ip)
+        itango.init_ipython(ip)
 
         o = ip.options
         
@@ -630,7 +631,7 @@ Here is the code for the $HOME/.ipython/ipy_profile_orbit.py:
         ip.expose_magic("liberas", magic_liberas)
 
         db = ip.user_ns.get('db')
-        dev_class_dict = PyTango.ipython.get_class_map()
+        dev_class_dict = itango.get_class_map()
 
         if not dev_class_dict.has_key("Libera"):
             return
