@@ -108,13 +108,8 @@ def has_numpy(with_src=True):
     return ret
 
 
-def get_script_files():
-    if os.name == "nt":
-        return ["scripts/pytango_winpostinstall.py"]
-    return []
-
-
-def add_lib(name, dirs, sys_libs, env_name=None, lib_name=None, inc_suffix=None):
+def add_lib(name, dirs, sys_libs,
+            env_name=None, lib_name=None, inc_suffix=None):
     if env_name is None:
         env_name = name.upper() + '_ROOT'
     ENV = os.environ.get(env_name)
@@ -380,10 +375,8 @@ def setup_args():
     ]
 
     package_data = {
-        'PyTango' : [],
+        'PyTango': [],
     }
-
-    scripts = get_script_files()
 
     data_files = []
 
@@ -476,7 +469,6 @@ def setup_args():
         classifiers=classifiers,
         package_data=package_data,
         data_files=data_files,
-        scripts=scripts,
         provides=provides,
         keywords=Release.keywords,
         requires=requires,
